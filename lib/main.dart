@@ -1,111 +1,180 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+class Product {
+  const Product({this.name});
+  final String name;
+}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+typedef void CartChangedCallback(Product product, bool inCart);
+
+class ShoppingListItem extends StatelessWidget {
+  ShoppingListItem({
+     this.product,
+     this.inCart,
+     this.onCartChanged,
+  }) : super(key: ObjectKey(product));
+
+  final Product product;
+  final bool inCart;
+  final CartChangedCallback onCartChanged;
+
+  Color _getColor(BuildContext context) {
+    // The theme depends on the BuildContext because different
+    // parts of the tree can have different themes.
+    // The BuildContext indicates where the build is
+    // taking place and therefore which theme to use.
+
+    return inCart //
+        ? Colors.black54
+        : Theme.of(context).primaryColor;
+  }
+
+  TextStyle _getTextStyle(BuildContext context) {
+    if (!inCart) return null;
+
+    return TextStyle(
+      color: Colors.black54,
+      decoration: TextDecoration.lineThrough,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return ListTile(
+      onTap: () {
+        onCartChanged(product, inCart);
+      },
+      leading: CircleAvatar(
+        backgroundColor: _getColor(context),
+        child: Text(product.name[0]),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // title: Text(product.name, style: _getTextStyle(context)),
+      title: Text(product.name),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class ConfigList extends StatefulWidget {
+  ConfigList({ this.products}) : super();
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  final List<Product> products;
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  // The framework calls createState the first time
+  // a widget appears at a given location in the tree.
+  // If the parent rebuilds and uses the same type of
+  // widget (with the same key), the framework re-uses
+  // the State object instead of creating a new State object.
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _ConfigListState createState() => _ConfigListState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _ConfigListState extends State<ConfigList> {
+  Set<Product> _shoppingCart = Set<Product>();
 
-  void _incrementCounter() {
+  void _handleCartChanged(Product product, bool inCart) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      // When a user changes what's in the cart, you need
+      // to change _shoppingCart inside a setState call to
+      // trigger a rebuild.
+      // The framework then calls build, below,
+      // which updates the visual appearance of the app.
+
+      if (!inCart)
+        _shoppingCart.add(product);
+      else
+        _shoppingCart.remove(product);
     });
   }
 
+  bool switchOpenIPv6 = false;
+  bool switchConfirmCertificate = true;
+  bool switchFilterChinaMainLandIP = true;
+  bool switchAllowAccessLAN = true;
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('Shopping List'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      body: Column(
+    
+        children: [
+          Image(image: AssetImage("images/ic_launcher.png")),
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Name",
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+          ),
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Remote Address",
             ),
-          ],
-        ),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Remote Service SNI",
+            ),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Port",
+            ),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Password",
+            ),
+          ),
+          Row(
+            children: [
+              Text("开启IPv6"),
+              Switch(value: switchOpenIPv6, onChanged: (value){
+
+              }),
+            ],
+          ),
+          Row(
+            children: [
+              Text("验证证书"),
+              Switch(value: switchConfirmCertificate, onChanged: (value){
+
+              }),
+            ],
+          ),
+          Row(
+            children: [
+              Text("过滤大陆域名/IP"),
+              Switch(value: switchFilterChinaMainLandIP, onChanged: (value){
+
+              }),
+            ],
+          ),
+          Row(
+            children: [
+              Text("允许局域网访问"),
+              Switch(value: switchAllowAccessLAN, onChanged: (value){
+
+              }),
+            ],
+          ),
+          TextButton(onPressed: (){}, child: Text("连接"))
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    title: 'Shopping App',
+    home: ConfigList(
+      products: <Product>[
+        Product(name: 'Eggs'),
+        Product(name: 'Flour'),
+        Product(name: 'Chocolate chips'),
+      ],
+    ),
+  ));
 }
