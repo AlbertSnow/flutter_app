@@ -7,8 +7,7 @@ class ConfigPage extends StatefulWidget {
   ConfigPage({Key? key, required this.config}) : super(key: key);
 
   @override
-  _ConfigPageState createState() =>
-      _ConfigPageState(config);
+  _ConfigPageState createState() => _ConfigPageState(config);
 }
 
 class _ConfigPageState extends State<ConfigPage> {
@@ -37,7 +36,9 @@ class _ConfigPageState extends State<ConfigPage> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    _textControllerList.forEach((element) {element.dispose();});
+    _textControllerList.forEach((element) {
+      element.dispose();
+    });
     super.dispose();
   }
 
@@ -45,97 +46,110 @@ class _ConfigPageState extends State<ConfigPage> {
   Widget build(BuildContext context) {
     updateTextControllerList();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Shopping List'),
-      ),
-      body: Column(
-        children: [
-          Image(image: AssetImage("images/ic_launcher.png")),
-          TextField(
-            controller: _textControllerList[0],
-            decoration: InputDecoration(
-              hintText: "Name",
-            ),
-          ),
-          TextField(
-            controller: _textControllerList[1],
-            decoration: InputDecoration(
-              hintText: "Remote Address",
-            ),
-          ),
-          TextField(
-            controller: _textControllerList[2],
-            decoration: InputDecoration(
-              hintText: "Remote Service SNI",
-            ),
-          ),
-          TextField(
-            controller: _textControllerList[3],
-            decoration: InputDecoration(
-              hintText: "Port",
-            ),
-          ),
-          TextField(
-            controller: _textControllerList[4],
-            decoration: InputDecoration(
-              hintText: "Password",
-            ),
-          ),
-          Row(
-            children: [
-              Text("开启IPv6"),
-              Switch(
-                  value: modelConfig.isTurnOnIPv6,
-                  onChanged: (value) {
-                    modelConfig.isTurnOnIPv6 = value;
-                  }),
-            ],
-          ),
-          Row(
-            children: [
-              Text("验证证书"),
-              Switch(
-                  value: modelConfig.isConfirmCertificate,
-                  onChanged: (value) {
-                    setState(() {
-                      modelConfig.isConfirmCertificate = value;
-                    });
-                  })
-            ],
-          ),
-          Row(
-            children: [
-              Text("过滤大陆域名/IP"),
-              Switch(
-                  value: modelConfig.isFilterMainLandIPAddress,
-                  onChanged: (value) {
-                    setState(() {
-                      modelConfig.isFilterMainLandIPAddress = value;
-                    });
-                  }),
-            ],
-          ),
-          Row(
-            children: [
-              Text("允许局域网访问"),
-              Switch(
-                  value: modelConfig.isAllowAccessLAN,
-                  onChanged: (value) {
-                    setState(() {
-                      modelConfig.isAllowAccessLAN = value;
-                    });
-              }),
-            ],
-          ),
-          TextButton(onPressed: () {
-            onConnect();
-          }, child: Text("连接")),
-          TextButton(onPressed: () {
-            onReset();
-          }, child: Text("ReSet"))
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Shopping List'),
+        ),
+        body: new Container(
+            padding: new EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Image(image: AssetImage("images/ic_launcher.png")),
+                TextField(
+                  controller: _textControllerList[0],
+                  decoration: InputDecoration(
+                    hintText: "Name",
+                  ),
+                ),
+                TextField(
+                  controller: _textControllerList[1],
+                  decoration: InputDecoration(
+                    hintText: "Remote Address",
+                  ),
+                ),
+                TextField(
+                  controller: _textControllerList[2],
+                  decoration: InputDecoration(
+                    hintText: "Remote Service SNI",
+                  ),
+                ),
+                TextField(
+                  controller: _textControllerList[3],
+                  decoration: InputDecoration(
+                    hintText: "Port",
+                  ),
+                ),
+                TextField(
+                  controller: _textControllerList[4],
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                  ),
+                ),
+                new Container(
+                    margin: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      children: [
+                        Text("开启IPv6"),
+                        Switch(
+                            value: modelConfig.isTurnOnIPv6,
+                            onChanged: (value) {
+                              setState(() {
+                                modelConfig.isTurnOnIPv6 = value;
+                              });
+                            }),
+                      ],
+                    )),
+                Row(
+                  children: [
+                    Text("验证证书"),
+                    Switch(
+                        value: modelConfig.isConfirmCertificate,
+                        onChanged: (value) {
+                          setState(() {
+                            modelConfig.isConfirmCertificate = value;
+                          });
+                        })
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("过滤大陆域名/IP"),
+                    Switch(
+                        value: modelConfig.isFilterMainLandIPAddress,
+                        onChanged: (value) {
+                          setState(() {
+                            modelConfig.isFilterMainLandIPAddress = value;
+                          });
+                        }),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("允许局域网访问"),
+                    Switch(
+                        value: modelConfig.isAllowAccessLAN,
+                        onChanged: (value) {
+                          setState(() {
+                            modelConfig.isAllowAccessLAN = value;
+                          });
+                        }),
+                  ],
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                        onPressed: () {
+                          onConnect();
+                        },
+                        child: Text("连接"))),
+                SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                        onPressed: () {
+                          onReset();
+                        },
+                        child: Text("ReSet")))
+              ],
+            )));
   }
 
   void onConnect() {
@@ -148,9 +162,11 @@ class _ConfigPageState extends State<ConfigPage> {
   }
 
   void onReset() {
-    ConfigRepository.instance.get((config) {setState(() {
-      modelConfig = config;
-    });});
+    ConfigRepository.instance.get((config) {
+      setState(() {
+        modelConfig = config;
+      });
+    });
   }
 
   void updateTextControllerList() {
