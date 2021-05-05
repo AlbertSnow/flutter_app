@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/model/ModelConfig.dart';
 import 'package:flutter_app/repositories/ConfigRepository.dart';
 
-class ConfigurationPage extends StatefulWidget {
-  ConfigurationPage({Key key}) : super(key: key);
+class ConfigPage extends StatefulWidget {
+  final ModelConfig config;
+  ConfigPage({Key? key, required this.config}) : super(key: key);
 
   @override
-  _ConfigurationPageState createState() =>
-      _ConfigurationPageState(ConfigRepository.instance.get());
+  _ConfigPageState createState() =>
+      _ConfigPageState(config);
 }
 
-class _ConfigurationPageState extends State<ConfigurationPage> {
-  ModelConfig modelConfig;
+class _ConfigPageState extends State<ConfigPage> {
+  late ModelConfig modelConfig;
 
   // of the TextField.
-  final List<TextEditingController> _textControllerList =
-    List<TextEditingController>.filled(5, null);
+  List<TextEditingController> _textControllerList =
+    List<TextEditingController>.filled(5, new TextEditingController());
 
-  _ConfigurationPageState(ModelConfig config) {
+  _ConfigPageState(ModelConfig? config) {
+    if (config == null) {
+      return;
+    }
+
     modelConfig = config;
     for (int i = 0; i < _textControllerList.length; i++) {
       _textControllerList[i] = new TextEditingController();
@@ -38,6 +43,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
 
   @override
   Widget build(BuildContext context) {
+    updateTextControllerList();
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping List'),
@@ -123,7 +129,10 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
           ),
           TextButton(onPressed: () {
             onConnect();
-          }, child: Text("连接"))
+          }, child: Text("连接")),
+          TextButton(onPressed: () {
+            onReset();
+          }, child: Text("ReSet"))
         ],
       ),
     );
@@ -136,6 +145,20 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     modelConfig.port = _textControllerList[3].text;
     modelConfig.password = _textControllerList[4].text;
     ConfigRepository.instance.save(modelConfig);
+  }
+
+  void onReset() {
+    ConfigRepository.instance.get((config) {setState(() {
+      modelConfig = config;
+    });});
+  }
+
+  void updateTextControllerList() {
+    _textControllerList[0].text = modelConfig.name;
+    _textControllerList[1].text = modelConfig.remoteAddress;
+    _textControllerList[2].text = modelConfig.remoteServiceSNI;
+    _textControllerList[3].text = modelConfig.port;
+    _textControllerList[4].text = modelConfig.password;
   }
 
 }
