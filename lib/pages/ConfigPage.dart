@@ -47,9 +47,9 @@ class _ConfigPageState extends State<ConfigPage> {
     updateTextControllerList();
     return Scaffold(
         appBar: AppBar(
-          title: Text('Shopping List'),
+          title: Text('Configuration'),
         ),
-        body: new Container(
+        body: Container(
             padding: new EdgeInsets.all(10.0),
             child: Column(
               children: [
@@ -84,7 +84,7 @@ class _ConfigPageState extends State<ConfigPage> {
                     hintText: "Password",
                   ),
                 ),
-                new Container(
+                Container(
                     margin: const EdgeInsets.only(top: 20.0),
                     child: Row(
                       children: [
@@ -136,14 +136,14 @@ class _ConfigPageState extends State<ConfigPage> {
                 ),
                 SizedBox(
                     width: double.infinity,
-                    child: TextButton(
+                    child: ElevatedButton(
                         onPressed: () {
                           onConnect();
                         },
                         child: Text("连接"))),
                 SizedBox(
                     width: double.infinity,
-                    child: TextButton(
+                    child: ElevatedButton(
                         onPressed: () {
                           onReset();
                         },

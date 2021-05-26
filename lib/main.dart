@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/bloc_provider.dart';
+import 'package:flutter_app/bloc/main_bloc.dart';
 import 'package:flutter_app/model/ModelConfig.dart';
 import 'package:flutter_app/pages/ConfigPage.dart';
 import 'package:flutter_app/repositories/ConfigRepository.dart';
 
 void main() {
-  runApp(MaterialApp(
-    title: 'Shopping App',
-    home: RoutingPage()
+  runApp(BlocProvider(
+    bloc: MainBloc(),
+    child: MaterialApp(
+      title: 'MaoShan',
+      home: RoutingPage()
+    ),
   ));
 }
 
@@ -24,7 +29,6 @@ class _RoutingPageState extends State<RoutingPage> {
   @override
   void initState() {
     super.initState();
-    ConfigRepository.instance.get((config) {_loadData(config);});
   }
 
   Future _loadData(ModelConfig param) async {
@@ -33,13 +37,18 @@ class _RoutingPageState extends State<RoutingPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Sets up our screen utils and applies defaults
-    if (config == null) {
-      return Material(color: Colors.white,
-          child: Center(child: CircularProgressIndicator()));
-    } else {
-      return ConfigPage(config: this.config!);
-    }
-  }
+    return StreamBuilder(
+        stream: BlocProvider.of<MainBloc>(context)?.configStream,
+        builder: (context, snapshot) {
+          final config = snapshot.data;
 
+          if (config == null) {
+            return Material(
+                color: Colors.white,
+                child: Center(child: CircularProgressIndicator()));
+          } else {
+            return ConfigPage(config: this.config!);
+          }
+        });
+  }
 }
