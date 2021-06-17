@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/bloc_provider.dart';
+import 'package:flutter_app/bloc/main_bloc.dart';
 import 'package:flutter_app/model/ModelConfig.dart';
 import 'package:flutter_app/repositories/ConfigRepository.dart';
 
@@ -7,22 +9,15 @@ class ConfigPage extends StatefulWidget {
   ConfigPage({Key? key, required this.config}) : super(key: key);
 
   @override
-  _ConfigPageState createState() => _ConfigPageState(config);
+  _ConfigPageState createState() => _ConfigPageState();
 }
 
 class _ConfigPageState extends State<ConfigPage> {
-  late ModelConfig modelConfig;
 
-  // of the TextField.
   List<TextEditingController> _textControllerList =
     List<TextEditingController>.filled(5, new TextEditingController());
 
-  _ConfigPageState(ModelConfig? config) {
-    if (config == null) {
-      return;
-    }
-
-    modelConfig = config;
+  _ConfigPageState() {
     for (int i = 0; i < _textControllerList.length; i++) {
       _textControllerList[i] = new TextEditingController();
     }
@@ -44,7 +39,9 @@ class _ConfigPageState extends State<ConfigPage> {
 
   @override
   Widget build(BuildContext context) {
-    updateTextControllerList();
+    final MainBloc? bloc = BlocProvider.of<MainBloc>(context);
+
+    resetController(widget.config);
     return Scaffold(
         appBar: AppBar(
           title: Text('Configuration'),
@@ -90,10 +87,10 @@ class _ConfigPageState extends State<ConfigPage> {
                       children: [
                         Text("开启IPv6"),
                         Switch(
-                            value: modelConfig.isTurnOnIPv6,
+                            value: widget.config.isTurnOnIPv6,
                             onChanged: (value) {
                               setState(() {
-                                modelConfig.isTurnOnIPv6 = value;
+                                widget.config.isTurnOnIPv6 = value;
                               });
                             }),
                       ],
@@ -102,10 +99,10 @@ class _ConfigPageState extends State<ConfigPage> {
                   children: [
                     Text("验证证书"),
                     Switch(
-                        value: modelConfig.isConfirmCertificate,
+                        value: widget.config.isConfirmCertificate,
                         onChanged: (value) {
                           setState(() {
-                            modelConfig.isConfirmCertificate = value;
+                            widget.config.isConfirmCertificate = value;
                           });
                         })
                   ],
@@ -114,10 +111,10 @@ class _ConfigPageState extends State<ConfigPage> {
                   children: [
                     Text("过滤大陆域名/IP"),
                     Switch(
-                        value: modelConfig.isFilterMainLandIPAddress,
+                        value: widget.config.isFilterMainLandIPAddress,
                         onChanged: (value) {
                           setState(() {
-                            modelConfig.isFilterMainLandIPAddress = value;
+                            widget.config.isFilterMainLandIPAddress = value;
                           });
                         }),
                   ],
@@ -126,10 +123,10 @@ class _ConfigPageState extends State<ConfigPage> {
                   children: [
                     Text("允许局域网访问"),
                     Switch(
-                        value: modelConfig.isAllowAccessLAN,
+                        value: widget.config.isAllowAccessLAN,
                         onChanged: (value) {
                           setState(() {
-                            modelConfig.isAllowAccessLAN = value;
+                            widget.config.isAllowAccessLAN = value;
                           });
                         }),
                   ],
@@ -138,38 +135,30 @@ class _ConfigPageState extends State<ConfigPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          onConnect();
+                          dumpControllerTo(widget.config);
+                          bloc?.restRepository.add(widget.config);
                         },
                         child: Text("连接"))),
                 SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          onReset();
+                          bloc?.restRepository.add(null);
                         },
                         child: Text("ReSet")))
               ],
             )));
   }
 
-  void onConnect() {
+  void dumpControllerTo(ModelConfig modelConfig) {
     modelConfig.name = _textControllerList[0].text;
     modelConfig.remoteAddress = _textControllerList[1].text;
     modelConfig.remoteServiceSNI = _textControllerList[2].text;
     modelConfig.port = _textControllerList[3].text;
     modelConfig.password = _textControllerList[4].text;
-    ConfigRepository.instance.save(modelConfig);
   }
 
-  void onReset() {
-    ConfigRepository.instance.get((config) {
-      setState(() {
-        modelConfig = config;
-      });
-    });
-  }
-
-  void updateTextControllerList() {
+  void resetController(ModelConfig modelConfig) {
     _textControllerList[0].text = modelConfig.name;
     _textControllerList[1].text = modelConfig.remoteAddress;
     _textControllerList[2].text = modelConfig.remoteServiceSNI;

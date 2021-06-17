@@ -12,8 +12,6 @@ class ConfigRepository {
   static final ConfigRepository instance = new ConfigRepository._();
 
   get(void Function(ModelConfig param) action) async {
-    // String json = "";
-    // ModelConfig config = ModelConfig.fromJson(jsonDecode(json));
     MyPreference.instance.get(KEY_CONFIG).then((value) {
       ModelConfig config;
       if (value != null && value != "") {
@@ -25,10 +23,6 @@ class ConfigRepository {
       }
       action(config);
     });
-    // .onError((error, stackTrace) {
-    //   action(new ModelConfig());
-    //   errorLog(error.toString());
-    // });
   }
 
   save(ModelConfig config) async {

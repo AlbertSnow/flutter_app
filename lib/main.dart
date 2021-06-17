@@ -24,22 +24,18 @@ class RoutingPage extends StatefulWidget {
 
 class _RoutingPageState extends State<RoutingPage> {
 
-
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<MainBloc>(context)?.initData();
+    BlocProvider.of<MainBloc>(context)?.initConfig();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: BlocProvider.of<MainBloc>(context)?.configStream,
-        initialData: null,
         builder: (BuildContext context, AsyncSnapshot<ModelConfig?> snapshot) {
           final configData = snapshot.data;
-
           if (configData == null) {
             return Material(
                 color: Colors.white,
