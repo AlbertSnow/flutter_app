@@ -25,6 +25,10 @@ class MainBloc implements Bloc {
     _configController.close();
   }
 
+  void initData() {
+    ConfigRepository.instance.get((config) {_configController.sink.add(config);});
+  }
+
 
 
 }
