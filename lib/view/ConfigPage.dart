@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/bloc_provider.dart';
 import 'package:flutter_app/bloc/main_bloc.dart';
 import 'package:flutter_app/model/ModelConfig.dart';
-import 'package:flutter_app/repositories/ConfigRepository.dart';
+import 'package:flutter_app/net/view/NetPage.dart';
 
 class ConfigPage extends StatefulWidget {
   final ModelConfig config;
@@ -145,7 +145,19 @@ class _ConfigPageState extends State<ConfigPage> {
                         onPressed: () {
                           bloc?.restRepository.add(null);
                         },
-                        child: Text("ReSet")))
+                        child: Text("ReSet"))),
+                Expanded(
+                  child: ElevatedButton(
+                    child: Text("open new route"),
+                    onPressed: () {
+                      //导航到新路由
+                      Navigator.push( context,
+                          MaterialPageRoute(builder: (context) {
+                            return NetPage();
+                          }));
+                    },
+                  ),
+                ),
               ],
             )));
   }

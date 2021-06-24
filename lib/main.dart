@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/bloc_provider.dart';
 import 'package:flutter_app/bloc/main_bloc.dart';
 import 'package:flutter_app/model/ModelConfig.dart';
-import 'package:flutter_app/pages/ConfigPage.dart';
-import 'package:flutter_app/repositories/ConfigRepository.dart';
+
+import 'view/ConfigPage.dart';
 
 void main() {
   runApp(BlocProvider(
