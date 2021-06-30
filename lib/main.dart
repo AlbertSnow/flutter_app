@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/bloc_provider.dart';
-import 'package:flutter_app/bloc/main_bloc.dart';
-import 'package:flutter_app/model/ModelConfig.dart';
 
-import 'view/ConfigPage.dart';
+import 'config/bloc/bloc_provider.dart';
+import 'config/bloc/main_bloc.dart';
+import 'config/model/ModelConfig.dart';
+import 'config/view/ConfigPage.dart';
+
 
 void main() {
   runApp(BlocProvider(

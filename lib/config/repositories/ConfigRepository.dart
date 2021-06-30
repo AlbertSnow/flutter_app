@@ -1,8 +1,9 @@
-import 'package:flutter_app/model/ModelConfig.dart';
 import 'dart:convert';
 
-import 'package:flutter_app/repositories/MyPreference.dart';
+import 'package:flutter_app/config/model/ModelConfig.dart';
 import 'package:flutter_app/utils/LogUtil.dart';
+
+import 'MyPreference.dart';
 
 class ConfigRepository {
   static const String KEY_CONFIG = "ModelConfig";
