@@ -26,6 +26,7 @@ dependencies:
   json_annotation: ^4.0.0
   shared_preferences: any
   http: ^0.13.3
+  flutter_bloc: ^4.0.0
 
 dev_dependencies:
   flutter_test:

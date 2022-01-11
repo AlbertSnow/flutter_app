@@ -146,18 +146,28 @@ class _ConfigPageState extends State<ConfigPage> {
                           bloc?.restRepository.add(null);
                         },
                         child: Text("ReSet"))),
-                Expanded(
-                  child: ElevatedButton(
-                    child: Text("open new route"),
+                Row(children: [
+                  ElevatedButton(
+                    child: Text("open StateLess page"),
                     onPressed: () {
                       //导航到新路由
-                      Navigator.push( context,
+                      Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                            return NetPage();
-                          }));
+                        return NetStatelessPage();
+                      }));
                     },
                   ),
-                ),
+                  ElevatedButton(
+                    child: Text("open StateFul page"),
+                    onPressed: () {
+                      //导航到新路由
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return NetStatefulPage();
+                      }));
+                    },
+                  ),
+                ]),
               ],
             )));
   }
