@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/bloc/bloc_provider.dart';
-import 'package:flutter_app/config/bloc/main_bloc.dart';
-import 'package:flutter_app/config/model/ModelConfig.dart';
-import 'package:flutter_app/net/view/NetPage.dart';
+import 'package:flutter_app/bloc/bloc_provider.dart';
+import 'package:flutter_app/bloc/main_bloc.dart';
+import 'package:flutter_app/model/ModelConfig.dart';
+import 'package:flutter_app/net/view/NetStatefullPage.dart';
+import 'package:flutter_app/net/view/NetStatelessPage.dart';
 
 class ConfigPage extends StatefulWidget {
   final ModelConfig config;

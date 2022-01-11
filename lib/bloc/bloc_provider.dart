@@ -1,7 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-
-import 'bloc.dart';
+import 'package:flutter_app/bloc/bloc.dart';
 
 class BlocProvider<T extends Bloc> extends StatefulWidget {
   final Widget child;
