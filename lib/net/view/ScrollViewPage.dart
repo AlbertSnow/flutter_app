@@ -11,21 +11,37 @@ class ScrollViewPage extends StatefulWidget {
 
 class _ScrollViewPageState extends State<ScrollViewPage> {
   ScrollController scrollViewController = ScrollController();
-  Size size = Size(0, 0);
-  Offset position = Offset(0, 0);
+
+  bool isListItemExposed = false;
+  Size listItemSize = Size(0, 0);
+  Offset listItemPosition = Offset(0, 0);
   final scrollViewKey = GlobalKey();
-  final targetViewKey = GlobalKey();
+  final targetListItemKey = GlobalKey();
 
   listenScroll() {
     print("Jia hello layout scroll ++++++++++++++++++ ");
     setState(() {
-      RenderObject? renderObject = targetViewKey.currentContext?.findRenderObject();
+      RenderObject? renderObject = targetListItemKey.currentContext?.findRenderObject();
       if (!(renderObject is RenderBox)) {
         return;
       }
-      RenderBox container = renderObject;
-      position = container.localToGlobal(Offset.zero);
-      size = container.size;
+      RenderBox renderBox = renderObject;
+      listItemPosition = renderBox.localToGlobal(Offset.zero);
+      listItemSize = renderBox.size;
+
+
+      RenderObject? scrollViewRenderObject = scrollViewKey.currentContext?.findRenderObject();
+      if (!(scrollViewRenderObject is RenderBox)) {
+        return;
+      }
+      RenderBox scrollViewRenderBox = scrollViewRenderObject;
+      Offset scrollViewPosition = scrollViewRenderBox.localToGlobal(Offset.zero);
+      Size scrollViewSize = scrollViewRenderBox.size;
+
+      var minScrollDy =  listItemPosition.dy + listItemSize.height -
+      scrollViewPosition.dy - scrollViewSize.height;
+
+      isListItemExposed = minScrollDy < 0;
     });
   }
 
@@ -48,7 +64,7 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('NetStatefulPage'),
+        title: Text('ListItemExposePage'),
       ),
       body: Container(
           height: MediaQuery.of(context).size.height,
@@ -56,15 +72,16 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text("List item expose: $isListItemExposed"),
               Text("Scroll: ${scrollViewController.offset}"),
-              Text("Position: ${position.distance}"),
-              Text("Position: dx: ${position.dx}"),
-              Text("Position: dy: ${position.dy}"),
-              Text("Size: width${size.width} height${size.height}"),
+              Text("Position: ${listItemPosition.distance}"),
+              Text("Position: dx: ${listItemPosition.dx}"),
+              Text("Position: dy: ${listItemPosition.dy}"),
+              Text("Size: width${listItemSize.width} height${listItemSize.height}"),
               SizedBox(
                 height: 600,
                 child: SingleChildScrollView(
-                  key: targetViewKey,
+                  key: scrollViewKey,
                   controller: scrollViewController,
                 child: Column(
                   children: [
@@ -94,6 +111,7 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
                     ),
 
                     SizedBox(
+                      key: targetListItemKey,
                       height: 60,
                       child: ElevatedButton(
                           onPressed: () {
