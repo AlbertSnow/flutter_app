@@ -17,6 +17,7 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
   Offset listItemPosition = Offset(0, 0);
   final scrollViewKey = GlobalKey();
   final targetListItemKey = GlobalKey();
+  double scrollOffset = 0;
 
   listenScroll() {
     print("Jia hello layout scroll ++++++++++++++++++ ");
@@ -42,6 +43,7 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
       scrollViewPosition.dy - scrollViewSize.height;
 
       isListItemExposed = minScrollDy < 0;
+      scrollOffset = scrollViewController.offset;
     });
   }
 
@@ -64,7 +66,7 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ListItemExposePage'),
+        title: Text('NetStatefulPage'),
       ),
       body: Container(
           height: MediaQuery.of(context).size.height,
@@ -73,7 +75,7 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("List item expose: $isListItemExposed"),
-              Text("Scroll: ${scrollViewController.offset}"),
+              Text("Scroll: $scrollOffset"),
               Text("Position: ${listItemPosition.distance}"),
               Text("Position: dx: ${listItemPosition.dx}"),
               Text("Position: dy: ${listItemPosition.dy}"),
