@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/net/view/ListItemExposeManager.dart';
 
 class ScrollViewPage extends StatefulWidget {
 
@@ -19,8 +20,10 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
   final targetListItemKey = GlobalKey();
   double scrollOffset = 0;
 
+  late ListItemExposeManager exposeManager;
+
   listenScroll() {
-    print("Jia hello layout scroll ++++++++++++++++++ ");
+    // print("Jia hello layout scroll ++++++++++++++++++ ");
     setState(() {
       RenderObject? renderObject = targetListItemKey.currentContext?.findRenderObject();
       if (!(renderObject is RenderBox)) {
@@ -39,10 +42,16 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
       Offset scrollViewPosition = scrollViewRenderBox.localToGlobal(Offset.zero);
       Size scrollViewSize = scrollViewRenderBox.size;
 
-      var minScrollDy =  listItemPosition.dy + listItemSize.height -
-      scrollViewPosition.dy - scrollViewSize.height;
 
-      isListItemExposed = minScrollDy < 0;
+      double minScrollDy = listItemPosition.dy +
+          listItemSize.height -
+          scrollViewPosition.dy -
+          scrollViewSize.height;
+
+      bool afterListView = minScrollDy > 0;
+      bool beforeListView = listItemPosition.dy + listItemSize.height < scrollViewPosition.dy;
+      isListItemExposed = !beforeListView && !afterListView;
+
       scrollOffset = scrollViewController.offset;
     });
   }
@@ -53,6 +62,9 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
     print("Jia hello init state ++++++++++++++++++ ");
 
     super.initState();
+    exposeManager = ListItemExposeManager(targetListItemKey, scrollViewKey, scrollViewController, (isExpose){
+      print("isExpose ++++++++++++++++++ $isExpose ");
+    });
     scrollViewController.addListener(() => listenScroll());
   }
 
@@ -88,6 +100,7 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
                 child: Column(
                   children: [
                     SizedBox(
+                      key: targetListItemKey,
                       height: 500,
                       child: ElevatedButton(
                           onPressed: () {
@@ -113,7 +126,6 @@ class _ScrollViewPageState extends State<ScrollViewPage> {
                     ),
 
                     SizedBox(
-                      key: targetListItemKey,
                       height: 60,
                       child: ElevatedButton(
                           onPressed: () {
