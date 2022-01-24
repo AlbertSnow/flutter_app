@@ -55,6 +55,7 @@ class NetStatelessPage extends StatelessWidget {
   void futureCall(BuildContext context) {
     print("Future click");
     Future.delayed(Duration(seconds: 4), () {
+      print('isCurrentPage: ${ModalRoute.of(context)?.isCurrent ?? false}');
       // print("Future mount test: $mounted");
       print("Future running context: ${context == null ? "null" : "noNull"}");
       var navigatorState = Navigator.maybeOf(context, rootNavigator: true);

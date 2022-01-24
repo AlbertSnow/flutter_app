@@ -4,6 +4,7 @@ import 'package:flutter_app/bloc/main_bloc.dart';
 import 'package:flutter_app/model/ModelConfig.dart';
 import 'package:flutter_app/net/view/NetStatefullPage.dart';
 import 'package:flutter_app/net/view/NetStatelessPage.dart';
+import 'package:flutter_app/net/view/ScrollViewPage.dart';
 
 class ConfigPage extends StatefulWidget {
   final ModelConfig config;
@@ -149,7 +150,7 @@ class _ConfigPageState extends State<ConfigPage> {
                         child: Text("ReSet"))),
                 Row(children: [
                   ElevatedButton(
-                    child: Text("open StateLess page"),
+                    child: Text("StateLess page"),
                     onPressed: () {
                       //导航到新路由
                       Navigator.push(context,
@@ -159,12 +160,22 @@ class _ConfigPageState extends State<ConfigPage> {
                     },
                   ),
                   ElevatedButton(
-                    child: Text("open StateFul page"),
+                    child: Text("StateFul page"),
                     onPressed: () {
                       //导航到新路由
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return NetStatefulPage();
+                      }));
+                    },
+                  ),
+                  ElevatedButton(
+                    child: Text("Scroll page"),
+                    onPressed: () {
+                      //导航到新路由
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ScrollViewPage();
                       }));
                     },
                   ),
