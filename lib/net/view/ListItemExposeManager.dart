@@ -7,6 +7,8 @@ class ListItemExposeManager {
   Function(bool isExpose) exposeCallback;
   ScrollController scrollViewController;
 
+  /// Be attention, not every widget will mapping to RenderObject, Element.
+  /// Sometime the widget is just constraint, Change another widget to set key if RenderObject is null.
   ListItemExposeManager(this.listItemViewKey, this.scrollViewKey,
       this.scrollViewController, this.exposeCallback) {
     scrollViewController.addListener(() => updateStatus());
@@ -16,7 +18,7 @@ class ListItemExposeManager {
   void updateStatus() {
     RenderObject? renderObject =
         listItemViewKey.currentContext?.findRenderObject();
-    if (!(renderObject is RenderBox)) {
+    if (renderObject is! RenderBox) {
       return;
     }
     RenderBox listItemRenderBox = renderObject;
@@ -28,7 +30,7 @@ class ListItemExposeManager {
 
     RenderObject? scrollViewRenderObject =
         scrollViewKey.currentContext?.findRenderObject();
-    if (!(scrollViewRenderObject is RenderBox)) {
+    if (scrollViewRenderObject is! RenderBox) {
       return;
     }
     RenderBox scrollViewRenderBox = scrollViewRenderObject;
