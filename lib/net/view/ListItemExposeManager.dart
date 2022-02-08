@@ -4,13 +4,13 @@ class ListItemExposeManager {
   bool isExpose = false;
   GlobalKey listItemViewKey;
   GlobalKey scrollViewKey;
-  Function(bool isExpose) exposeCallback;
+  Function(bool isExpose) exposeChangeCallback;
   ScrollController scrollViewController;
 
   /// Be attention, not every widget will mapping to RenderObject, Element.
   /// Sometime the widget is just constraint, Change another widget to set key if RenderObject is null.
   ListItemExposeManager(this.listItemViewKey, this.scrollViewKey,
-      this.scrollViewController, this.exposeCallback) {
+      this.scrollViewController, this.exposeChangeCallback) {
     scrollViewController.addListener(() => updateStatus());
     WidgetsBinding.instance?.addPostFrameCallback((_) => updateStatus());
   }
@@ -50,7 +50,7 @@ class ListItemExposeManager {
     bool currentIsExpose = !beforeListView && !afterListView;
 
     if (currentIsExpose != isExpose) {
-      exposeCallback(currentIsExpose);
+      exposeChangeCallback(currentIsExpose);
     }
     isExpose = currentIsExpose;
   }
