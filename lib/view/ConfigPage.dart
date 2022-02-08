@@ -200,4 +200,18 @@ class _ConfigPageState extends State<ConfigPage> {
     _textControllerList[4].text = modelConfig.password;
   }
 
+  void showBottomSheetView(BuildContext context) {
+    showModalBottomSheet(
+        elevation: 10,
+        backgroundColor: Colors.amber,
+        context: context,
+        builder: (ctx) => Container(
+          width: 300,
+          height: 250,
+          color: Colors.white54,
+          alignment: Alignment.center,
+          child: const Text('Breathe in... Breathe out...'),
+        ));
+  }
+
 }
