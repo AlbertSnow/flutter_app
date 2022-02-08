@@ -200,6 +200,11 @@ class _ConfigPageState extends State<ConfigPage> {
     _textControllerList[4].text = modelConfig.password;
   }
 
+  /// we can see from this blog:  https://www.kindacode.com/article/flutter-bottom-sheet-examples/
+  /// there totally 3 type bottomSheet.
+  /// 1. model bottom sheet (have semi transparent background on top of sheet)
+  /// 2. persistent Bottom Sheet (click outset not invisible, and is Scaffold field )
+  /// 3. multi edit text： keep IMS not cover edit text (bottom: MediaQuery.of(ctx).viewInsets.bottom + 15)
   void showBottomSheetView(BuildContext context) {
     showModalBottomSheet(
         elevation: 10,
