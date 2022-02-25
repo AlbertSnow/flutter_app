@@ -5,6 +5,7 @@ import 'package:flutter_app/model/ModelConfig.dart';
 import 'package:flutter_app/net/view/NetStatefullPage.dart';
 import 'package:flutter_app/net/view/NetStatelessPage.dart';
 import 'package:flutter_app/net/view/ScrollViewPage.dart';
+import 'package:flutter_app/view/price_detail_bottom_sheet.dart';
 
 class ConfigPage extends StatefulWidget {
   final ModelConfig config;
@@ -180,6 +181,16 @@ class _ConfigPageState extends State<ConfigPage> {
                     },
                   ),
                 ]),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      child: Text("BottomSheet"),
+                      onPressed: () {
+                        showPriceDetailBottomSheet(context);
+                      },
+                    ),
+                  ],
+                )
               ],
             )));
   }
@@ -198,25 +209,6 @@ class _ConfigPageState extends State<ConfigPage> {
     _textControllerList[2].text = modelConfig.remoteServiceSNI;
     _textControllerList[3].text = modelConfig.port;
     _textControllerList[4].text = modelConfig.password;
-  }
-
-  /// we can see from this blog:  https://www.kindacode.com/article/flutter-bottom-sheet-examples/
-  /// there totally 3 type bottomSheet.
-  /// 1. model bottom sheet (have semi transparent background on top of sheet)
-  /// 2. persistent Bottom Sheet (click outset not invisible, and is Scaffold field )
-  /// 3. multi edit text： keep IMS not cover edit text (bottom: MediaQuery.of(ctx).viewInsets.bottom + 15)
-  void showBottomSheetView(BuildContext context) {
-    showModalBottomSheet(
-        elevation: 10,
-        backgroundColor: Colors.amber,
-        context: context,
-        builder: (ctx) => Container(
-          width: 300,
-          height: 250,
-          color: Colors.white54,
-          alignment: Alignment.center,
-          child: const Text('Breathe in... Breathe out...'),
-        ));
   }
 
 }
