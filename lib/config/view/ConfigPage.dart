@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/animation/AnimationPage.dart';
 import 'package:flutter_app/config/bloc/bloc_provider.dart';
 import 'package:flutter_app/config/bloc/main_bloc.dart';
 import 'package:flutter_app/config/model/ModelConfig.dart';
@@ -146,14 +147,28 @@ class _ConfigPageState extends State<ConfigPage> {
                           bloc?.restRepository.add(null);
                         },
                         child: Text("ReSet"))),
-                Expanded(
+                SizedBox(
+                  width: double.infinity,
                   child: ElevatedButton(
-                    child: Text("open new route"),
+                    child: Text("Net Page"),
                     onPressed: () {
                       //导航到新路由
                       Navigator.push( context,
                           MaterialPageRoute(builder: (context) {
                             return NetPage();
+                          }));
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text("Animation Page"),
+                    onPressed: () {
+                      //导航到新路由
+                      Navigator.push( context,
+                          MaterialPageRoute(builder: (context) {
+                            return AnimationPage();
                           }));
                     },
                   ),
