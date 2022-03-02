@@ -317,6 +317,13 @@ packages:
       url: "https://pub.sankuai.com"
     source: hosted
     version: "1.0.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.sankuai.com"
+    source: hosted
+    version: "1.0.0"
   node_preamble:
     dependency: transitive
     description:
@@ -394,6 +401,13 @@ packages:
       url: "https://pub.sankuai.com"
     source: hosted
     version: "4.2.1"
+  provider:
+    dependency: "direct dev"
+    description:
+      name: provider
+      url: "https://pub.sankuai.com"
+    source: hosted
+    version: "5.0.0"
   pub_semver:
     dependency: transitive
     description:
