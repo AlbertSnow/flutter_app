@@ -1,4 +1,6 @@
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class AnimationPage extends StatefulWidget {
   AnimationPage({Key? key}) : super(key: key);
@@ -18,12 +20,12 @@ class _AnimationPageState extends State<AnimationPage>
 
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 2000),
+      duration: Duration(milliseconds: 800),
     );
 
     animation = Tween(
-      begin: 0.0,
-      end: 1.0,
+      begin: 1.0,
+      end: 0.0,
     ).animate(animationController!);
   }
 
@@ -35,8 +37,7 @@ class _AnimationPageState extends State<AnimationPage>
 
   @override
   Widget build(BuildContext context) {
-    animationController?.forward();
-
+    // animationController?.forward();
     return Scaffold(
         appBar: AppBar(
           title: Text('Animation'),
@@ -54,7 +55,10 @@ class _AnimationPageState extends State<AnimationPage>
                           onPressed: () {
                             // dumpControllerTo(widget.config);
                             // bloc?.restRepository.add(widget.config);
-                            animationController?.forward(from: 0.0);
+                            animationController?.forward();
+                            // Future.delayed(Duration(milliseconds: 2000), () {
+                            //   Navigator.pop(context);
+                            // });
                           },
                           child: Text("forward"))),
                   SizedBox(
@@ -65,6 +69,27 @@ class _AnimationPageState extends State<AnimationPage>
                             animationController?.reverse();
                           },
                           child: Text("reverse"))),
+                  SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            // bloc?.restRepository.add(null);
+                            // animationController?.addListener(() {
+                            //   if (animationController?.status == AnimationStatus.completed) {
+                            //     print("jialiang : Finish");
+                            //   }
+                            // });
+                            // animationController?.addStatusListener(
+                            //         (status) {
+                            //       print("jialiang : animation $status");
+                            //       if (status == AnimationStatus.completed) {
+                            //         Navigator.pop(context);
+                            //       }
+                            //     }
+                            // );
+                            animationController?.forward();
+                          },
+                          child: Text("close"))),
                 ],
               ),
             )));

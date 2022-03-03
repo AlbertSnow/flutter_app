@@ -162,19 +162,19 @@ class _ConfigPageState extends State<ConfigPage> {
                       },
                     ),
                   ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: ElevatedButton(
-                  //     child: Text("Animation Page"),
-                  //     onPressed: () {
-                  //       //导航到新路由
-                  //       Navigator.push( context,
-                  //           MaterialPageRoute(builder: (context) {
-                  //             return AnimationPage();
-                  //           }));
-                  //     },
-                  //   ),
-                  // ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: Text("Animation Page"),
+                      onPressed: () {
+                        //导航到新路由
+                        Navigator.push( context,
+                            MaterialPageRoute(builder: (context) {
+                              return AnimationPage();
+                            }));
+                      },
+                    ),
+                  ),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
